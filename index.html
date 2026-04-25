@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+  <title>Tamil Beats</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#0c0c14"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="TamilBeats"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+
+  <link rel="stylesheet" href="css/style.css"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+</head>
+<body data-theme="dark">
+
+  <!-- SIDEBAR BACKDROP -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">♪</span>
+      <span class="logo-text">Tamil<span>Beats</span></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <p class="nav-label">Categories</p>
+      <ul id="categoryList">
+        <li class="nav-item active" data-category="all"><span class="nav-icon">🎵</span> All Songs</li>
+        <li class="nav-item" data-category="melody"><span class="nav-icon">🎶</span> Melody</li>
+        <li class="nav-item" data-category="beat"><span class="nav-icon">🥁</span> Beat Songs</li>
+        <li class="nav-item" data-category="breakup"><span class="nav-icon">💔</span> Break Up</li>
+        <li class="nav-item" data-category="love"><span class="nav-icon">❤️</span> Love Songs</li>
+        <li class="nav-item" data-category="mass"><span class="nav-icon">🔥</span> Mass / Kuthu</li>
+        <li class="nav-item" data-category="devotional"><span class="nav-icon">🙏</span> Devotional</li>
+      </ul>
+
+      <p class="nav-label" style="margin-top:1.5rem">Tools</p>
+      <ul>
+        <li class="nav-item" id="queueBtn"><span class="nav-icon">📋</span> Queue</li>
+        <li class="nav-item" id="equalizerBtn"><span class="nav-icon">🎛️</span> Equalizer</li>
+        <li class="nav-item" id="sleepBtn"><span class="nav-icon">😴</span> Sleep Timer</li>
+        <li class="nav-item" id="themeBtn"><span class="nav-icon">🎨</span> Theme</li>
+      </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div id="installBtn" class="install-btn" style="display:none">
+        📲 Install App
+      </div>
+      <p>Made with ❤️ by D. Vimal</p>
+    </div>
+  </aside>
+
+  <!-- HAMBURGER -->
+  <button class="hamburger" id="hamburger" aria-label="Open menu">☰</button>
+
+  <!-- MAIN -->
+  <main class="main">
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 class="page-title" id="pageTitle">All Songs</h1>
+        <span class="song-count" id="songCount">0 songs</span>
+      </div>
+      <div class="topbar-right">
+        <select id="speedSelect" class="speed-select" title="Playback Speed">
+          <option value="0.5">0.5x</option>
+          <option value="0.75">0.75x</option>
+          <option value="1" selected>1x</option>
+          <option value="1.25">1.25x</option>
+          <option value="1.5">1.5x</option>
+          <option value="2">2x</option>
+        </select>
+        <div class="search-wrap">
+          <span>🔍</span>
+          <input type="text" id="searchInput" placeholder="Search songs..." class="search-input"/>
+        </div>
+        <label class="upload-btn" for="fileUpload">＋ Add Songs
+          <input type="file" id="fileUpload" accept=".mp3,audio/*" multiple hidden/>
+        </label>
+      </div>
+    </header>
+
+    <section class="song-list-wrap">
+      <div class="song-list" id="songList"></div>
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">🎵</div>
+        <h3>No songs yet</h3>
+        <p>Click <strong>+ Add Songs</strong> to upload your Tamil MP3 files.</p>
+        <label class="btn-primary" for="fileUpload">Upload MP3s</label>
+      </div>
+    </section>
+  </main>
+
+  <!-- PLAYER BAR -->
+  <div class="player-bar" id="playerBar">
+    <div class="player-info" id="playerInfoClick">
+      <div class="player-thumb" id="playerThumb">♪</div>
+      <div class="player-meta">
+        <div class="player-title" id="playerTitle">No song selected</div>
+        <div class="player-category" id="playerCategory">—</div>
+      </div>
+    </div>
+    <div class="player-center">
+      <div class="player-controls">
+        <button class="ctrl-btn" id="shuffleBtn" title="Shuffle">⇄</button>
+        <button class="ctrl-btn" id="prevBtn" title="Previous">⏮</button>
+        <button class="ctrl-btn play-btn" id="playBtn" title="Play/Pause">▶</button>
+        <button class="ctrl-btn" id="nextBtn" title="Next">⏭</button>
+        <button class="ctrl-btn" id="repeatBtn" title="Repeat">↺</button>
+      </div>
+      <div class="progress-wrap">
+        <span class="time-label" id="currentTime">0:00</span>
+        <div class="progress-bar" id="progressBar">
+          <div class="progress-fill" id="progressFill"></div>
+          <div class="progress-thumb" id="progressThumb"></div>
+        </div>
+        <span class="time-label" id="durationTime">0:00</span>
+      </div>
+    </div>
+    <div class="player-right">
+      <span>🔊</span>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="1" class="volume-slider"/>
+    </div>
+  </div>
+
+  <!-- ═══ NOW PLAYING FULLSCREEN ═══ -->
+  <div class="nowplaying-overlay" id="nowPlayingOverlay">
+    <button class="np-close" id="npClose">⌄</button>
+    <canvas class="np-visualizer" id="npVisualizer"></canvas>
+    <div class="np-art" id="npArt">♪</div>
+    <div class="np-title" id="npTitle">—</div>
+    <div class="np-cat" id="npCat">—</div>
+    <div class="np-progress-wrap">
+      <span class="np-time" id="npCurrent">0:00</span>
+      <div class="np-bar" id="npBar"><div class="np-fill" id="npFill"></div></div>
+      <span class="np-time" id="npDuration">0:00</span>
+    </div>
+    <div class="np-controls">
+      <button class="np-btn" id="npShuffle">⇄</button>
+      <button class="np-btn" id="npPrev">⏮</button>
+      <button class="np-btn np-play" id="npPlay">▶</button>
+      <button class="np-btn" id="npNext">⏭</button>
+      <button class="np-btn" id="npRepeat">↺</button>
+    </div>
+    <div class="np-bottom">
+      <select id="npSpeed" class="np-speed">
+        <option value="0.5">0.5x</option>
+        <option value="0.75">0.75x</option>
+        <option value="1" selected>1x</option>
+        <option value="1.25">1.25x</option>
+        <option value="1.5">1.5x</option>
+        <option value="2">2x</option>
+      </select>
+      <span id="npSleepLabel" class="np-sleep-label"></span>
+    </div>
+  </div>
+
+  <!-- ═══ CATEGORY MODAL ═══ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <h2 class="modal-title">Pick Category & Art</h2>
+      <p class="modal-desc" id="modalDesc">Choose category for your song(s).</p>
+      <div class="art-upload-wrap">
+        <label class="art-upload-label" for="artUpload">
+          <div class="art-preview" id="artPreview">🖼️ Add Album Art (optional)</div>
+          <input type="file" id="artUpload" accept="image/*" hidden/>
+        </label>
+      </div>
+      <div class="modal-cats">
+        <button class="cat-btn" data-cat="melody">🎶 Melody</button>
+        <button class="cat-btn" data-cat="beat">🥁 Beat Songs</button>
+        <button class="cat-btn" data-cat="breakup">💔 Break Up</button>
+        <button class="cat-btn" data-cat="love">❤️ Love Songs</button>
+        <button class="cat-btn" data-cat="mass">🔥 Mass / Kuthu</button>
+        <button class="cat-btn" data-cat="devotional">🙏 Devotional</button>
+      </div>
+      <button class="modal-close" id="modalClose">✕ Cancel</button>
+    </div>
+  </div>
+
+  <!-- ═══ EQUALIZER PANEL ═══ -->
+  <div class="panel-overlay" id="eqOverlay">
+    <div class="panel">
+      <div class="panel-head"><span>🎛️ Equalizer</span><button class="panel-close" id="eqClose">✕</button></div>
+      <div class="eq-presets">
+        <button class="preset-btn active" data-preset="flat">Flat</button>
+        <button class="preset-btn" data-preset="bass">Bass Boost</button>
+        <button class="preset-btn" data-preset="treble">Treble</button>
+        <button class="preset-btn" data-preset="vocal">Vocal</button>
+        <button class="preset-btn" data-preset="pop">Pop</button>
+      </div>
+      <div class="eq-bands" id="eqBands">
+        <!-- rendered by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ SLEEP TIMER PANEL ═══ -->
+  <div class="panel-overlay" id="sleepOverlay">
+    <div class="panel">
+      <div class="panel-head"><span>😴 Sleep Timer</span><button class="panel-close" id="sleepClose">✕</button></div>
+      <div class="sleep-btns">
+        <button class="sleep-opt" data-mins="15">15 min</button>
+        <button class="sleep-opt" data-mins="30">30 min</button>
+        <button class="sleep-opt" data-mins="45">45 min</button>
+        <button class="sleep-opt" data-mins="60">60 min</button>
+        <button class="sleep-opt" data-mins="90">90 min</button>
+        <button class="sleep-opt" id="sleepCancel" data-mins="0">Cancel</button>
+      </div>
+      <p class="sleep-status" id="sleepStatus">No timer set</p>
+    </div>
+  </div>
+
+  <!-- ═══ THEME PANEL ═══ -->
+  <div class="panel-overlay" id="themeOverlay">
+    <div class="panel">
+      <div class="panel-head"><span>🎨 Theme</span><button class="panel-close" id="themeClose">✕</button></div>
+      <div class="theme-grid">
+        <button class="theme-opt" data-theme="dark">🌑 Dark</button>
+        <button class="theme-opt" data-theme="light">☀️ Light</button>
+        <button class="theme-opt" data-theme="purple">💜 Purple</button>
+        <button class="theme-opt" data-theme="red">❤️ Red</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ QUEUE PANEL ═══ -->
+  <div class="panel-overlay" id="queueOverlay">
+    <div class="panel">
+      <div class="panel-head"><span>📋 Queue</span><button class="panel-close" id="queueClose">✕</button></div>
+      <p class="panel-sub">Drag to reorder · Click to play</p>
+      <div class="queue-list" id="queueList"></div>
+    </div>
+  </div>
+
+  <audio id="audioPlayer"></audio>
+  <audio id="crossfadeAudio"></audio>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
