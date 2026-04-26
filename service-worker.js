@@ -1,8 +1,8 @@
 // ── TAMIL BEATS SERVICE WORKER ──
 // Caches all app files so it works offline
 
-const CACHE_NAME   = 'tamilbeats-v1';
-const RUNTIME_CACHE = 'tamilbeats-runtime-v1';
+const CACHE_NAME   = 'tamilbeats-v2';
+const RUNTIME_CACHE = 'tamilbeats-runtime-v2';
 
 // Files to cache immediately on install (app shell)
 const PRECACHE_URLS = [
