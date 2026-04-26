@@ -675,8 +675,8 @@ searchInput.addEventListener('input',renderSongs);
 // ══════════════════════════════════════════════
 //  SIDEBAR
 // ══════════════════════════════════════════════
-function openSidebar(){  sidebar.classList.add('open');  backdrop.classList.add('show'); }
-function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('show'); }
+function openSidebar(){  sidebar.classList.add('open');  backdrop.classList.add('show'); hamburger.style.display='none'; }
+function closeSidebar(){ sidebar.classList.remove('open'); backdrop.classList.remove('show'); hamburger.style.display='flex'; }
 hamburger.addEventListener('click',e=>{ e.stopPropagation(); sidebar.classList.contains('open')?closeSidebar():openSidebar(); });
 backdrop.addEventListener('click',closeSidebar);
 
