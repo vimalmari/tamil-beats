@@ -307,3 +307,208 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:var(--f
   .np-art{width:150px;height:150px;font-size:3.5rem}
   .np-title{font-size:1.1rem}
 }
+
+/* ══════════════════════════════════════
+   SCROLLING SONG NAME ANIMATION
+══════════════════════════════════════ */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  30%  { transform: translateX(0); }
+  70%  { transform: translateX(var(--scroll-dist, -50%)); }
+  100% { transform: translateX(var(--scroll-dist, -50%)); }
+}
+
+.song-name-scroll {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.song-name-scroll.scrolling span {
+  display: inline-block;
+  animation: marquee 4s ease-in-out infinite alternate;
+}
+
+/* ══════════════════════════════════════
+   MOBILE FIXES — COMPLETE OVERHAUL
+══════════════════════════════════════ */
+@media(max-width: 768px) {
+
+  /* ── TOPBAR ── */
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.75rem 0.75rem 0.75rem 3.8rem;
+    gap: 0.5rem;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .page-title { font-size: 1.1rem; }
+  .song-count { margin-top: 0; font-size: 0.72rem; }
+
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    width: 100%;
+  }
+
+  .search-wrap {
+    flex: 1;
+    padding: 0.45rem 0.75rem;
+  }
+
+  .search-input {
+    width: 100%;
+    font-size: 0.8rem;
+  }
+
+  .upload-btn {
+    flex-shrink: 0;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.8rem;
+    border-radius: 10px;
+  }
+
+  .speed-select { display: none; }
+
+  /* ── SONG LIST ── */
+  .song-list-wrap { padding: 0.6rem 0.75rem; }
+
+  .song-item {
+    grid-template-columns: 28px 40px 1fr auto auto;
+    gap: 0.5rem;
+    padding: 0.55rem 0.65rem;
+  }
+
+  .song-art { width: 40px; height: 40px; font-size: 1rem; }
+  .song-name { font-size: 0.85rem; }
+  .song-cat-tag { font-size: 0.65rem; }
+  .song-duration { font-size: 0.75rem; }
+  .song-menu-btn { opacity: 1; width: 24px; height: 24px; font-size: 0.85rem; }
+
+  /* ── PLAYER BAR ── */
+  .player-bar {
+    grid-template-columns: 1fr auto;
+    padding: 0 0.75rem;
+    height: var(--player-h);
+    gap: 0.5rem;
+  }
+
+  .player-right { display: none; }
+
+  .player-thumb { width: 44px; height: 44px; font-size: 1.2rem; border-radius: 10px; }
+
+  .player-title {
+    font-size: 0.8rem;
+    max-width: 140px;
+  }
+
+  .player-category { font-size: 0.7rem; }
+
+  .ctrl-btn { width: 32px; height: 32px; font-size: 1rem; }
+  .play-btn { width: 40px; height: 40px; font-size: 0.95rem; }
+
+  .progress-wrap { gap: 0.4rem; }
+  .time-label { font-size: 0.68rem; }
+
+  /* ── NOW PLAYING FULLSCREEN ── */
+  .nowplaying-overlay {
+    padding: 1rem 1.25rem 1.5rem;
+    gap: 0.75rem;
+    justify-content: flex-start;
+    padding-top: 3rem;
+  }
+
+  .np-close {
+    top: 0.75rem;
+    width: 44px;
+    height: 20px;
+  }
+
+  .np-visualizer {
+    width: 100%;
+    height: 60px;
+    border-radius: 10px;
+    flex-shrink: 0;
+  }
+
+  .np-art {
+    width: 200px !important;
+    height: 200px !important;
+    font-size: 4rem;
+    border-radius: 18px;
+    flex-shrink: 0;
+  }
+
+  .np-title {
+    font-size: 1.15rem !important;
+    text-align: center;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 1rem;
+  }
+
+  .np-cat { font-size: 0.8rem; }
+
+  .np-progress-wrap {
+    width: 100%;
+    gap: 0.5rem;
+  }
+
+  .np-bar { height: 4px; }
+  .np-time { font-size: 0.72rem; }
+
+  .np-controls { gap: 0.5rem; }
+
+  .np-btn {
+    width: 44px; height: 44px;
+    font-size: 1.2rem;
+  }
+
+  .np-play {
+    width: 56px; height: 56px;
+    font-size: 1.3rem;
+  }
+
+  .np-bottom {
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .np-speed { font-size: 0.8rem; padding: 0.35rem 0.65rem; }
+}
+
+/* ══ EXTRA SMALL PHONES (< 400px) ══ */
+@media(max-width: 400px) {
+  :root { --player-h: 100px; }
+
+  .player-bar {
+    grid-template-columns: 1fr;
+    height: auto;
+    padding: 0.6rem 0.75rem;
+    gap: 0.3rem;
+  }
+
+  .player-info { width: 100%; }
+
+  .player-center { width: 100%; }
+
+  .player-title { max-width: 200px; font-size: 0.78rem; }
+
+  .np-art {
+    width: 170px !important;
+    height: 170px !important;
+  }
+
+  .topbar { padding: 0.6rem 0.6rem 0.6rem 3.5rem; }
+}
